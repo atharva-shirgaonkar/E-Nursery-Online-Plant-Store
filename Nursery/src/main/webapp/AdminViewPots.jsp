@@ -1,0 +1,266 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="conn.ConnectionProvider"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Nursery</title>
+
+
+</head>
+<body style="background-image: url('./img/intro-carousel/17.jpg');">
+
+	<jsp:include page="header/adminheader.jsp" />
+
+
+<%
+
+
+response.setHeader("Pragma","no-cache"); // HTTP 1.0
+response.setHeader("Cache-Control","no-store"); // HTTP 1.1
+response.setDateHeader("Expires", 0);
+
+if(session.getAttribute("username")==null){
+	   
+    response.sendRedirect("adminLogin.jsp?Result=");       
+}
+else{
+
+	
+	%>
+
+	<div class="container" style="margin-top: 70px; margin-left: 250px">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-offset-3 col-md-8">
+					<div class="form">
+
+
+						<%
+							String imagename = "";
+							String filepath = "";
+							Connection con;
+						%>
+
+
+						<h2>All Pots Details</h2>
+						<h2>Standard Plastic Pots</h2>
+						<%
+							con = ConnectionProvider.getConnection();
+							String qur1 = "select *from nursery_items where item_type=' Standard Plastic Pots'";
+							PreparedStatement ps1 = con.prepareStatement(qur1);
+							ResultSet rs1 = ps1.executeQuery();
+						%>
+						<table border="1px solid black" style="text-align: center;">
+							<tr>
+								<th>Photo</th>
+								<th>Plant Name</th>
+								<th>Remaining Items</th>
+								<th>Delete Items</th>
+								<th>update</th>
+
+
+							</tr>
+
+							<%
+								while (rs1.next()) {
+									int fid = rs1.getInt(1);
+									String itemname = rs1.getString("item");
+									imagename = rs1.getString("item_image");
+
+									filepath = "./allimages/" + imagename;
+							%>
+
+
+							<tr>
+								<td><img src="<%=filepath%>" width="100" height="100"></td>
+
+								<td><%=imagename%></td>
+								<td><%=rs1.getString("item_qnt")%></td>
+
+								<td><button type="submit"
+										onclick="location.href='DeleteItem?fid=<%=fid%>&itemname=<%=itemname%>'">Delete</button>
+								</td>
+								<td><button type="submit" onclick="location.href='UpdateItem.jsp?fid=<%=fid%>&itemname=<%= imagename %>&item_type=<%= rs1.getString("item_type") %>&quant=<%= rs1.getString("item_qnt") %>&price=<%= rs1.getString("item_price") %>&item=<%= rs1.getString("item") %>'">Update</button> </td>
+							</tr>
+
+
+
+
+
+
+
+							<%
+								}
+							%>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<div class="container" style="margin-top: 30px; margin-left: 250px">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-offset-3 col-md-8" style="width: 100%">
+					<div class="form">
+
+
+
+						<h2>Colorful Plastic Pots</h2>
+						<%
+							con = ConnectionProvider.getConnection();
+							String qur2 = "select *from nursery_items where item_type='Colorful Plastic Pots'";
+							PreparedStatement ps2 = con.prepareStatement(qur2);
+							ResultSet rs2 = ps2.executeQuery();
+						%>
+						<table border="1px solid black" style="text-align: center;">
+							<tr>
+								<th>Photo</th>
+								<th>Plant Name</th>
+								<th>Remaining Items</th>
+									<th>Delete Items</th>
+									<th>Update Items</th>
+
+
+							</tr>
+
+							<%
+								while (rs2.next()) {
+
+									int fid = rs2.getInt(1);
+									String itemname = rs2.getString("item");
+									imagename = rs2.getString("item_image");
+
+									filepath = "./allimages/" + imagename;
+							%>
+
+
+							<tr>
+								<td><img src="<%=filepath%>" width="100" height="100"></td>
+
+								<td><%=imagename%></td>
+								<td><%=rs2.getString("item_qnt")%></td>
+
+								<td><button type="submit"
+										onclick="location.href='DeleteItem?fid=<%=fid%>&itemname=<%=itemname%>'">Delete</button>
+								</td>
+								
+								<td><button type="submit" onclick="location.href='UpdateItem.jsp?fid=<%=fid%>&itemname=<%= imagename %>&item_type=<%= rs2.getString("item_type") %>&quant=<%= rs2.getString("item_qnt") %>&price=<%= rs2.getString("item_price") %>&item=<%= rs2.getString("item") %>'">Update</button> </td>
+							</tr>
+
+
+
+
+
+
+
+							<%
+								}
+							%>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+	<div class="container" style="margin-top: 30px; margin-left: 250px">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-offset-3 col-md-8" style="width: 100%">
+
+					<div class="form">
+
+
+						<h2>Flower Tower</h2>
+						<%
+							con = ConnectionProvider.getConnection();
+							String qur3 = "select *from nursery_items where item_type='Flower Tower'";
+							PreparedStatement ps3 = con.prepareStatement(qur3);
+							ResultSet rs3 = ps3.executeQuery();
+						%>
+						<table border="1px solid black" style="text-align: center;">
+							<tr>
+								<th>Photo</th>
+								<th>Plant Name</th>
+								<th>Remaining Items</th>
+									<th>Delete Items</th>
+									<th>Update Items</th>
+
+
+							</tr>
+
+							<%
+								while (rs3.next()) {
+									
+									int fid=rs3.getInt(1);
+									String itemname=rs3.getString("item");
+
+									imagename = rs3.getString("item_image");
+
+									filepath = "./allimages/" + imagename;
+							%>
+
+
+							<tr>
+								<td><img src="<%=filepath%>" width="100" height="100"></td>
+
+								<td><%=imagename%></td>
+								<td><%=rs3.getString("item_qnt")%></td>
+								<td><button type="submit" onclick="location.href='DeleteItem?fid=<%=fid%>&itemname=<%= itemname %>'">Delete</button> </td>
+							<td><button type="submit" onclick="location.href='UpdateItem.jsp?fid=<%=fid%>&itemname=<%= imagename %>&item_type=<%= rs3.getString("item_type") %>&quant=<%= rs3.getString("item_qnt") %>&price=<%= rs3.getString("item_price") %>&item=<%= rs3.getString("item") %>'">Update</button> </td>
+							</tr>
+
+
+
+
+
+
+
+							<%
+								}
+							%>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	
+	
+	<% 
+
+}
+
+%>
+
+
+
+
+</body>
+</html>
